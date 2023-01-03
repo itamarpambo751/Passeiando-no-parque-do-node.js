@@ -1,14 +1,15 @@
 import { RolePermissionsRepositoryInterface } from "../RolePermissionsRepository";
 import { prisma } from "../../../client/client";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
+import { RolePermissionModel } from "../../entities/RolePermissions";
 
 export class RolePermissionsRepositoryInMemory
   implements RolePermissionsRepositoryInterface
 {
-  async bringValidCombinations(
+  async bringValidPermissions(
     role_id: string,
     permissions: string[]
-  ): Promise<Object | HttpExceptionErrors> {
+  ): Promise<Record<string, string[]> | HttpExceptionErrors> {
     const validCombinations: Record<string, string[]> = {};
 
     permissions.forEach(async (permission_id) => {
@@ -31,14 +32,16 @@ export class RolePermissionsRepositoryInMemory
     return validCombinations;
   };
 
-  async save(role_id: string, permissions: string[]): Promise<void> {
-    permissions.forEach(async (permission_id) => {
-      await prisma.rolePermissions.create({
-        data: {
-          role_id,
-          permission_id,
-        },
-      });
+  async save({role_id, permissions}: RolePermissionModel): Promise<void> {
+
+    Object.entries(permissions).forEach(async ([ , permission]) => {
+      permission.forEach( async permission_id => await prisma.rolePermissions.create({ 
+        data: { 
+          role_id, permission_id, 
+        }, 
+      }));
     });
+
   };
+
 };

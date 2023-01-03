@@ -8,7 +8,7 @@ import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleReposit
 
 interface IbodyRequest {
   name: string;
-}
+};
 
 export const validateCreateRoleServiceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({
@@ -34,11 +34,17 @@ export class CreateRoleServiceController {
           .status(result.statusCode)
           .json({ message: result.message });
 
-      return response.status(StatusCodes.CREATED).send();
+      return response
+        .status(StatusCodes.CREATED)
+        .send();
+
     } catch (err: any) {
-      return response.status(StatusCodes.BAD_REQUEST).json({
-        message: err.message || "Unexpected error.",
-      });
+
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json({
+          message: err.message || "Unexpected error.",
+        });
     }
   }
 }

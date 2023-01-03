@@ -7,7 +7,7 @@ import { prisma } from "../../../client/client";
 import { UserModel } from "../../entities/User";
 import { uuid } from "uuidv4";
 import bcrypt from "bcrypt";
-import { HttpExceptionErrors } from "../../errors/httpExceptionsErrorsMiddlewares";
+import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { generateToken } from "../../middlewares/generateAccessTokenMiddleware";
 
 export class SqliteUserRepository implements UserRepositoryInterface {

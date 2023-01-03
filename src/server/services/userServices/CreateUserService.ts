@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { userCreationInterface } from "../../dtos/UserDtos";
 import { UserModel } from "../../entities/User";
-import { HttpExceptionErrors } from "../../errors/httpExceptionsErrorsMiddlewares";
+import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { UserRepositoryInterface } from "../../repositories/UserRepository";
 
 export class CreateUserservice {

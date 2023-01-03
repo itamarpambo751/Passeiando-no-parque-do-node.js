@@ -9,10 +9,10 @@ export class RolePermissionsRepositoryInMemory
   async bringValidPermissions(
     role_id: string,
     permissions: string[]
-  ): Promise<Record<string, string[]> | HttpExceptionErrors> {
-    const validCombinations: Record<string, string[]> = {};
+  ): Promise<string[] | HttpExceptionErrors> {
+    const validCombinations: string[] = [];
 
-    permissions.forEach(async (permission_id) => {
+    permissions.forEach( async permission_id => {
       const registExists = await prisma.rolePermissions.findMany({
         where: {
           role_id,
@@ -20,11 +20,14 @@ export class RolePermissionsRepositoryInMemory
         },
       });
 
-      if (!registExists)
-        validCombinations["valid_permissions"].push(permission_id);
+      
+      if (registExists.length === 0)
+        validCombinations.push(permission_id);
     });
 
-    if (Object.entries(validCombinations).length === 0)
+    console.log(validCombinations);
+      
+    if (validCombinations.length === 0)
       return new HttpExceptionErrors(
         "don't have valid permissions for this role, she already has them all."
       );
@@ -33,16 +36,12 @@ export class RolePermissionsRepositoryInMemory
   };
 
   async save({role_id, permissions}: RolePermissionModel): Promise<void> {
-    console.log("Tentando");
     
-    Object.entries(permissions).forEach(async ([ , permission]) => {
-      permission.forEach( async permission_id => await prisma.rolePermissions.create({ 
-        data: { 
-          role_id, permission_id, 
-        }, 
-      }));
-    });
-
+    permissions.forEach( async permission_id => await prisma.rolePermissions.create({ 
+      data: { 
+        role_id, permission_id, 
+      }, 
+    }));
   };
 
 };

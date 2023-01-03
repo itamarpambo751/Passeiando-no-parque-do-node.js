@@ -6,7 +6,7 @@ export interface RolePermissionsRepositoryInterface {
         role_id: string, 
         permitions: string[]
 
-    ): Promise<Record<string, string[]> | HttpExceptionErrors>;
+    ): Promise<string[] | HttpExceptionErrors>;
 
     save(
         {role_id, permissions} :RolePermissionModel

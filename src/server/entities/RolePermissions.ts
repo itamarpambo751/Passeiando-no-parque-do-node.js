@@ -1,6 +1,6 @@
 export class RolePermissionModel {
   role_id: string = "";
-  permissions: Record<string, string[]> = {};
+  permissions: string[] = [];
 
   private constructor({ role_id, permissions }: RolePermissionModel) {
     return Object.assign(this, { role_id, permissions });

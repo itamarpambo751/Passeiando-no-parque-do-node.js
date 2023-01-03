@@ -24,11 +24,9 @@ export class RolePermissionsRepositoryInMemory
       }
     });
       
-    registExists.forEach(element => {
-      returnedIds.push(element.permission.id) 
-    });
+    registExists.forEach(object => returnedIds.push(object.permission.id));
 
-    const valids = permissions.filter(permission => returnedIds.includes(permission));
+    const valids = permissions.filter(permission => !returnedIds.includes(permission));
     
     if (valids.length > 0)
       return valids;

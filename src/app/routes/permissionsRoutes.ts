@@ -3,7 +3,7 @@ import { createPermitionServicecontroller, validateCreatePermitionServiceSentSch
 
 const permitionsRoutes = Router();
 
-permitionsRoutes.post("/permitions", validateCreatePermitionServiceSentSchema, (req, res) => {
+permitionsRoutes.post("/permissions", validateCreatePermitionServiceSentSchema, (req, res) => {
     return createPermitionServicecontroller.handle(req, res);
 });
 

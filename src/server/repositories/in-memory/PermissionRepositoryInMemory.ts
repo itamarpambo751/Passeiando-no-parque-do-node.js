@@ -12,11 +12,11 @@ export class PermissionRepositoryInMemory
     return await prisma.permission.findUnique({
       where: { name },
     });
-  }
+  };
 
   async save({ name }: PermissionModel): Promise<void> {
-    await prisma.role.create({
+    await prisma.permission.create({
       data: { name },
     });
-  }
+  };
 }

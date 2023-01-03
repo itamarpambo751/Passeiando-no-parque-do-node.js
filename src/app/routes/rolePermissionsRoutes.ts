@@ -3,6 +3,6 @@ import { createRolePermitionsServiceController, validateCreateRolePermitionsServ
 
 export const rolePermissionsRoutes = Router()
 
-    .post("/rolePermitions", validateCreateRolePermitionsServiceSentSchema, (req, res) => {
+    .post("/rolePermissions", validateCreateRolePermitionsServiceSentSchema, (req, res) => {
         return createRolePermitionsServiceController.handle(req, res);
     })

@@ -25,7 +25,9 @@ export const validateCreateRolePermitionsServiceSentSchema = validateDataSentFro
 export class CreateRolePermitionsServiceController {
     constructor(private createRolePermitionsService: CreateRolePermitionsService) {};
 
+    
     async handle(request: Request, response: Response): Promise<Response> {
+        console.log("Chegou");
 
         const { role_id, permissions } = request.body;
 

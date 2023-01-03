@@ -33,7 +33,8 @@ export class RolePermissionsRepositoryInMemory
   };
 
   async save({role_id, permissions}: RolePermissionModel): Promise<void> {
-
+    console.log("Tentando");
+    
     Object.entries(permissions).forEach(async ([ , permission]) => {
       permission.forEach( async permission_id => await prisma.rolePermissions.create({ 
         data: { 

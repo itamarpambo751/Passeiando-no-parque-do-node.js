@@ -1,6 +1,6 @@
 type PermitionModelParametersType = { id?: string, name: string };
 
-export class UserModel {
+export class PermitionModel {
 
     public readonly id?: string;
     public name: string = '';

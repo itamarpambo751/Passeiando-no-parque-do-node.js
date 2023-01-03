@@ -10,7 +10,8 @@ export class CreateRoleService {
   async execute({ name }: roleCreationInterface) {
     const roleAlreadyExists = await this.roleRepository.findByName(name);
 
-    if (roleAlreadyExists) return new HttpExceptionErrors("Role already exists.", StatusCodes.BAD_REQUEST);
+    if (roleAlreadyExists) 
+        return new HttpExceptionErrors("Role already exists.", StatusCodes.BAD_REQUEST);
 
     const role = new RoleModel({ name });
 

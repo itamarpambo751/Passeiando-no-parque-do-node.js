@@ -5,12 +5,14 @@ import { prisma } from "../../../client/client";
 export class SqliteRoleRepository implements RoleRepositoryInterface {
     
     async findByName(name: string): Promise<findRoleFunctionsReturnsTypes> {
-        return prisma.role.create({
-            data: {name}
-        });
+       return await prisma.role.findUnique({
+        where: { name }
+       })
     };
 
-    async save(role: RoleModel): Promise<void> {
-        
+    async save({ name }: RoleModel): Promise<void> {
+        await prisma.role.create({
+            data: {name}
+        });
     };
 };

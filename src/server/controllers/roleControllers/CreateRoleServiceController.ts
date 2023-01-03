@@ -12,7 +12,7 @@ interface IbodyRequest {
   
 export const validateCreateRoleServiceSentSchema = validateDataSentFromRequest((getSchema) => ({
     body: getSchema<IbodyRequest>(yup.object().shape({
-        name: yup.string().required().min(6)
+        name: yup.string().required().min(3)
     })),
 }));
 

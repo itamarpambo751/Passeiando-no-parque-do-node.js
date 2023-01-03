@@ -9,7 +9,7 @@ export interface RolePermissionsRepositoryInterface {
     ): Promise<string[] | HttpExceptionErrors>;
 
     save(
-        {role_id, permissions} :RolePermissionModel
+        rolePermissions :RolePermissionModel
         
     ): Promise<void>;
 };

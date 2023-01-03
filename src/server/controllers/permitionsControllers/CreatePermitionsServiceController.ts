@@ -4,7 +4,7 @@ import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { CreatePermitionService } from "../../services/permitionsServices/CreatePermitionService";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware"
-import { SqlitePermitionRepository } from "../../repositories/implementations/SqlitePermitionRepository";
+import { SqlitePermitionRepository } from "../../repositories/implementations/PermitionRepositoryImplementation";
 
 interface IbodyRequest {
     name: string;

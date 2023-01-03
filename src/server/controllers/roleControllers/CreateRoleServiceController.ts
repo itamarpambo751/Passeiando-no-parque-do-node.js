@@ -4,7 +4,7 @@ import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { CreateRoleService } from "../../services/rolesServices/CreateRoleService";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware"
-import { SqliteRoleRepository } from "../../repositories/implementations/SqliteRoleRepository";
+import { SqliteRoleRepository } from "../../repositories/implementations/RoleRepositoryImplementation";
 
 interface IbodyRequest {
     name: string;

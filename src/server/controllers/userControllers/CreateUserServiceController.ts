@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserservice } from "../../services/userServices/CreateUserService";
 import { StatusCodes } from "http-status-codes";
-import { SqliteUserRepository } from "../../repositories/implementations/SqliteUserRepository";
+import { SqliteUserRepository } from "../../repositories/implementations/UserRepositoryImplementation";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 

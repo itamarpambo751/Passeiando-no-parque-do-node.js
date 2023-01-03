@@ -1,6 +1,6 @@
 type RoleModelParametersType = { id?: string, name: string };
 
-export class UserModel {
+export class RoleModel {
 
     public readonly id?: string;
     public name: string = '';

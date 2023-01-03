@@ -1,4 +1,4 @@
-import { userLoginInterface } from "../../dtos/UserDTOs";
+import { userLoginInterface } from "../../dtos/UserDtos";
 import { UserRepositoryInterface } from "../../repositories/UserRepository";
 
 export class UserLoginService {

@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { UserModel } from "../entities/User";
-import { HttpExceptionErrors } from "../middlewares/httpExceptionsErrorsMiddlewares";
+import { HttpExceptionErrors } from "../errors/httpExceptionsErrors";
 
 export type ReturnTypeOfFindUserFunctions = User | null;
 

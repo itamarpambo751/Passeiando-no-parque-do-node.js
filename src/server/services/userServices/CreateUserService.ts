@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { userCreationInterface } from "../../dtos/UserDTOs";
+import { userCreationInterface } from "../../dtos/UserDtos";
 import { UserModel } from "../../entities/User";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrorsMiddlewares";
 import { UserRepositoryInterface } from "../../repositories/UserRepository";

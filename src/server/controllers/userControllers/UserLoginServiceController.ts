@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { validateDataSentFromRequest } from "../middlewares/validateTheDataSentMiddleware";
-import { SqliteUserRepository } from "../repositories/implementations/SqliteUserRepository";
-import { UserLoginService } from "../services/userServices/UserLoginService";
+import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
+import { SqliteUserRepository } from "../../repositories/implementations/SqliteUserRepository";
+import { UserLoginService } from "../../services/userServices/UserLoginService";
 import * as yup from "yup";
 
 interface IbodyRequest {

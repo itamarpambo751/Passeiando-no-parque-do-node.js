@@ -13,11 +13,12 @@ type GetAllSchemas = (schema: GetSchema) => Partial<AllSchemas>;
 type DataSentFromRequest = (getAllSchemas: GetAllSchemas) => RequestHandler;
 
 export const validateDataSentFromRequest: DataSentFromRequest = (getAllSchemas) => async (req, res, next) => {
+    console.log("Chegou");
 
     const schemas = getAllSchemas(schema => schema);
     
     const reportedErrors: Record<string, Record<string, string>> = {};
-
+    
     Object.entries(schemas).forEach(([key, schema]) => {
 
         try {
@@ -41,6 +42,7 @@ export const validateDataSentFromRequest: DataSentFromRequest = (getAllSchemas) 
 
     if (Object.entries(reportedErrors).length === 0)
         return next();
+
     return res.status(StatusCodes.BAD_REQUEST).json({
         error: reportedErrors
     });

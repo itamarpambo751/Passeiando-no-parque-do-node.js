@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { createUserServiceController } from "../../server/controllers/CreateUserServiceController";
-import { userLoginServicecontroller } from "../../server/controllers/UserLoginServiceController";
+import { createUserServiceController, validateCreateUserserviceSentSchema } from "../../server/controllers/CreateUserServiceController";
+import { userLoginServicecontroller, validateUserLoginServiceSentSchema } from "../../server/controllers/UserLoginServiceController";
 
 const routes = Router();
 
-routes.post('/user',(req, res) => {
+routes.post('/user', validateCreateUserserviceSentSchema, (req, res) => {
     return createUserServiceController.handle(req, res);
 });
 
-routes.get('/login',(req, res) => {
+routes.get('/login', validateUserLoginServiceSentSchema, (req, res) => {
     return userLoginServicecontroller.handle(req, res);
 });
 

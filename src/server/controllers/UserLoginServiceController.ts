@@ -1,7 +1,21 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { validateDataSentFromRequest } from "../middlewares/validateTheDataSentMiddleware";
 import { SqliteUserRepository } from "../repositories/implementations/SqliteUserRepository";
 import { UserLoginService } from "../services/UserLoginService";
+import * as yup from "yup";
+
+interface IbodyRequest {
+    email: string;
+    password: string;
+};
+
+export const validateUserLoginServiceSentSchema = validateDataSentFromRequest((getSchema) => ({
+    body: getSchema<IbodyRequest>(yup.object().shape({
+        email:  yup.string().required().min(6),
+        password:  yup.string().required().min(6)
+    }))
+})); 
 
 class UserLoginServiceController {
     constructor(private userLoginService: UserLoginService) {};

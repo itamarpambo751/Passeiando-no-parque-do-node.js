@@ -1,10 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-import { routes } from './routes/routes';
+import { routes } from './routes/index';
 
-export const app = express().use(express.json()).use((req, res, next) => {
+export const app = express()
 
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+.use(express.json())
+
+.use((_, res, next) => {
+
+    res.header("Access-Control-Allow-Origin", "*");
     
     res.header("Access-Control-Allow-Methods", "*");
 
@@ -12,4 +16,6 @@ export const app = express().use(express.json()).use((req, res, next) => {
     
     return next();
 
-}).use(routes);
+})
+
+.use(routes);

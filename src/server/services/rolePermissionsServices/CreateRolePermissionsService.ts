@@ -6,7 +6,7 @@ import { RolePermissionsRepositoryInterface } from "../../repositories/RolePermi
 export class CreateRolePermitionsService {
   constructor(
     private rolePermissionsRepository: RolePermissionsRepositoryInterface
-  ) {}
+  ) {};
 
   async execute({ role_id, permissions }: rolePermissionsCreationInterface) {
     const validPermissions =

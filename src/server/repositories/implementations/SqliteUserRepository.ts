@@ -8,7 +8,13 @@ import { UserModel } from "../../entities/User";
 import { uuid } from "uuidv4";
 import bcrypt from "bcrypt";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
-import { generateToken } from "../../middlewares/generateAccessTokenMiddleware";
+import Jwt from "jsonwebtoken";
+import "dotenv";
+
+export const generateToken = async (user: User): Promise<String> => {
+
+  return Jwt.sign({ id: user.id }, process.env.ACCESS_KEY ?? "", { expiresIn: "1h" });
+};
 
 export class SqliteUserRepository implements UserRepositoryInterface {
   async findByEmail(email: string): Promise<ReturnTypeOfFindUserFunctions> {
@@ -28,7 +34,7 @@ export class SqliteUserRepository implements UserRepositoryInterface {
 
       select: { id: true, name: true, email: true, password: false },
     });
-  }
+  };
 
   async login(
     email: string,

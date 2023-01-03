@@ -15,7 +15,7 @@ model User {
   name String
   email String @unique
   password String
-  role Role[]
+  userRoles UserRoles[]
 
   @@map("user")
 }
@@ -23,8 +23,8 @@ model User {
 model Role {
   id String @id @default(uuid())
   name String @unique
-  user User[]
-  permitions Permition[]
+  rolePermitions RolePermitons[]
+  userRoles UserRoles[]
 
   @@map("role")
 }
@@ -32,7 +32,27 @@ model Role {
 model Permition {
   id String @id @default(uuid())
   name String @unique
-  roles Role[] 
+  rolePermitions RolePermitons[]
 
   @@map("permitions")
+}
+
+model RolePermitons {
+  role_id String
+  role Role @relation(fields: [role_id], references: [id])
+  permition_id String
+  permition Permition @relation(fields: [permition_id], references: [id])
+
+  @@id([role_id, permition_id])
+  @@map("rolePermitions")
+}
+
+model UserRoles {
+  user_id String
+  user User @relation(fields: [user_id], references: [id])
+  role_id String
+  role Role @relation(fields: [role_id], references: [id])
+
+  @@id([user_id, role_id])
+  @@map("userRoles")
 }

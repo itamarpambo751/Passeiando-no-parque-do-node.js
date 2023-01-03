@@ -13,8 +13,6 @@ type GetAllSchemas = (schema: GetSchema) => Partial<AllSchemas>;
 type DataSentFromRequest = (getAllSchemas: GetAllSchemas) => RequestHandler;
 
 export const validateDataSentFromRequest: DataSentFromRequest = (getAllSchemas) => async (req, res, next) => {
-    console.log("Chegou");
-
     const schemas = getAllSchemas(schema => schema);
     
     const reportedErrors: Record<string, Record<string, string>> = {};

@@ -16,7 +16,8 @@ export const generateToken = async (user: User): Promise<String> => {
   return Jwt.sign({ id: user.id }, process.env.ACCESS_KEY ?? "", { expiresIn: "1h" });
 };
 
-export class SqliteUserRepository implements UserRepositoryInterface {
+export class UserRepositoryInMemory implements UserRepositoryInterface {
+
   async findByEmail(email: string): Promise<ReturnTypeOfFindUserFunctions> {
     return await prisma.user.findUnique({
       where: {

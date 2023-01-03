@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { permitionsRoutes } from "./permitionsRoutes";
+import { permitionsRoutes } from "./permissionsRoutes";
 import { rolesRoutes } from "./rolesRoutes";
 import { userRoutes } from "./userRoutes";
 

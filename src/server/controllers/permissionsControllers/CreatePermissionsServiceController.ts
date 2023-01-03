@@ -1,33 +1,32 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
-import { CreateRoleService } from "../../services/rolesServices/CreateRoleService";
+import { CreatePermitionService } from "../../services/permissionsServices/CreatePermissionService";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
-import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
+import { PermissionRepositoryInMemory } from "../../repositories/in-memory/PermissionRepositoryInMemory";
 
 interface IbodyRequest {
   name: string;
 }
 
-export const validateCreateRoleServiceSentSchema = validateDataSentFromRequest(
-  (getSchema) => ({
+export const validateCreatePermitionServiceSentSchema =
+  validateDataSentFromRequest((getSchema) => ({
     body: getSchema<IbodyRequest>(
       yup.object().shape({
         name: yup.string().required().min(3),
       })
     ),
-  })
-);
+  }));
 
 export class CreateRoleServiceController {
-  constructor(private createRoleService: CreateRoleService) {}
+  constructor(private createPermitionService: CreatePermitionService) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
 
     try {
-      const result = await this.createRoleService.execute({ name });
+      const result = await this.createPermitionService.execute({ name });
 
       if (result instanceof HttpExceptionErrors)
         return response
@@ -43,6 +42,8 @@ export class CreateRoleServiceController {
   }
 }
 
-export const createRoleServicecontroller = new CreateRoleServiceController(
-  new CreateRoleService(new RoleRepositoryInMemory())
+export const createPermitionServicecontroller = new CreateRoleServiceController(
+  new CreatePermitionService(
+    new PermissionRepositoryInMemory()
+    )
 );

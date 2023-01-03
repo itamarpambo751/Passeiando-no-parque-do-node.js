@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPermitionServicecontroller, validateCreatePermitionServiceSentSchema } from "../../server/controllers/permitionsControllers/CreatePermitionsServiceController";
+import { createPermitionServicecontroller, validateCreatePermitionServiceSentSchema } from "../../server/controllers/permissionsControllers/CreatePermissionsServiceController";
 
 const permitionsRoutes = Router();
 

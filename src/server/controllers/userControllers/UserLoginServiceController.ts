@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
-import { SqliteUserRepository } from "../../repositories/implementations/UserRepositoryImplementation";
+import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import { UserLoginService } from "../../services/userServices/UserLoginService";
 import * as yup from "yup";
 
 interface IbodyRequest {
   email: string;
   password: string;
-}
+};
 
 export const validateUserLoginServiceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({
@@ -22,7 +22,7 @@ export const validateUserLoginServiceSentSchema = validateDataSentFromRequest(
 );
 
 class UserLoginServiceController {
-  constructor(private userLoginService: UserLoginService) {}
+  constructor(private userLoginService: UserLoginService) {};
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
@@ -33,15 +33,19 @@ class UserLoginServiceController {
         password,
       });
 
-      return response.status(StatusCodes.OK).send(loggedInUser);
+      return response
+        .status(StatusCodes.OK)
+        .send(loggedInUser);
+
     } catch (err: any) {
+
       return response
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: err.message || "Internal server error." });
-    }
-  }
-}
+    };
+  };
+};
 //Exporting to be used in application routes
 export const userLoginServicecontroller = new UserLoginServiceController(
-  new UserLoginService(new SqliteUserRepository())
+  new UserLoginService(new UserRepositoryInMemory())
 );

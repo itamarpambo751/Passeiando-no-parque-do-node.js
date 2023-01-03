@@ -2,7 +2,7 @@ import { findRoleFunctionsReturnsTypes, RoleRepositoryInterface } from "../RoleR
 import { RoleModel } from "../../entities/Role";
 import { prisma } from "../../../client/client";
 
-export class SqliteRoleRepository implements RoleRepositoryInterface {
+export class RoleRepositoryInMemory implements RoleRepositoryInterface {
     
     async findByName(name: string): Promise<findRoleFunctionsReturnsTypes> {
        return await prisma.role.findUnique({

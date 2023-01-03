@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserservice } from "../../services/userServices/CreateUserService";
 import { StatusCodes } from "http-status-codes";
-import { SqliteUserRepository } from "../../repositories/implementations/UserRepositoryImplementation";
+import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 
@@ -45,5 +45,5 @@ class CreateUserServiceController {
 }
 
 export const createUserServiceController = new CreateUserServiceController(
-  new CreateUserservice(new SqliteUserRepository())
+  new CreateUserservice(new UserRepositoryInMemory())
 );

@@ -5,9 +5,11 @@ import {
 import { PermissionModel } from "../../entities/Permission";
 import { prisma } from "../../../client/client";
 
-export class SqlitePermitionRepository implements PermissionRepositoryInterface {
+export class PermissionRepositoryInMemory
+  implements PermissionRepositoryInterface
+{
   async findByName(name: string): Promise<findPermissionFunctionsReturnsTypes> {
-    return await prisma.permition.findUnique({
+    return await prisma.permission.findUnique({
       where: { name },
     });
   }

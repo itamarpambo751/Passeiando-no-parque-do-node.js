@@ -23,28 +23,28 @@ model User {
 model Role {
   id String @id @default(uuid())
   name String @unique
-  rolePermitions RolePermitons[]
+  rolePermitions RolePermissions[]
   userRoles UserRoles[]
 
   @@map("role")
 }
 
-model Permition {
+model Permission {
   id String @id @default(uuid())
   name String @unique
-  rolePermitions RolePermitons[]
+  rolePermissions RolePermissions[]
 
-  @@map("permitions")
+  @@map("permissions")
 }
 
-model RolePermitons {
+model RolePermissions {
   role_id String
   role Role @relation(fields: [role_id], references: [id])
-  permition_id String
-  permition Permition @relation(fields: [permition_id], references: [id])
+  permission_id String
+  permission Permission @relation(fields: [permission_id], references: [id])
 
-  @@id([role_id, permition_id])
-  @@map("rolePermitions")
+  @@id([role_id, permission_id])
+  @@map("rolePermissions")
 }
 
 model UserRoles {

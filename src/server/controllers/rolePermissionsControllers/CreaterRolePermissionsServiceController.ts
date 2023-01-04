@@ -8,6 +8,7 @@ import { RolePermissionsRepositoryInMemory } from "../../repositories/in-memory/
 import { PermissionRepositoryInMemory } from "../../repositories/in-memory/PermissionRepositoryInMemory";
 import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
 import { RolePermissionModel } from "../../entities/RolePermissions";
+import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
 
 interface IbodyRequest extends RolePermissionModel{};
@@ -33,24 +34,23 @@ export class CreateRolePermitionsServiceController {
 
             const requestResult = await this.createRolePermitionsService.execute({ role_id, permissions });
 
-            if (requestResult instanceof HttpExceptionErrors)
-                return response
-                    .status(requestResult.statusCode)
-                    .json({
-                        message: requestResult.message
-                    });
+            if (requestResult instanceof HttpExceptionErrors) {
+                
+                failedToCreateANewRecord(requestResult);
+                return response;
+            };
+                
             
             return response
+                .setHeader("X-Records-Inserteds", requestResult)
+                .setHeader("X-Records-Not-Inserted", permissions.length - requestResult)
                 .status(201)
                 .send();
 
         } catch (err: any) {
             
-            return response
-                .status(StatusCodes.BAD_REQUEST)
-                .json({
-                    message: err.message || 'Unexpected error.'
-                });
+            failedToCreateANewRecord(err);
+            return response;
         };
     };
 };

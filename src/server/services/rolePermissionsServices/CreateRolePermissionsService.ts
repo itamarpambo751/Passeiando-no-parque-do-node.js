@@ -12,7 +12,7 @@ export class CreateRolePermitionsService {
     private roleRepository: RoleRepositoryInterface
   ) {};
 
-  async execute({ role_id, permissions }: rolePermissionsCreationInterface): Promise<void | HttpExceptionErrors> {
+  async execute({ role_id, permissions }: rolePermissionsCreationInterface): Promise<number | HttpExceptionErrors> {
     const validPermissions = await this.permissionsRepository.findByIds(permissions);
 
     if (!Array.isArray(validPermissions))

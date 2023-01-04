@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 import { PermissionRepositoryInMemory } from "../../repositories/in-memory/PermissionRepositoryInMemory";
 import { PermissionModel } from "../../entities/Permission";
+import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
 interface IbodyRequest extends Omit<PermissionModel, "id">{};
 
@@ -25,21 +26,24 @@ export class CreatePermissionServiceController {
     const { name } = request.body;
 
     try {
-      const result = await this.createPermitionService.execute({ name });
+      const requestResult = await this.createPermitionService.execute({ name });
 
-      if (result instanceof HttpExceptionErrors)
-        return response
-          .status(result.statusCode)
-          .json({ message: result.message });
+      if (requestResult instanceof HttpExceptionErrors) {
+        
+        failedToCreateANewRecord(requestResult);
+        return response;
+      };
+       
+      return response
+        .setHeader("X-records-created", "x-records")
+        .setHeader("x-records", 1)
+        .status(StatusCodes.CREATED)
+        .send();
 
-      response.setHeader("X-records-created", "x-records");
-      response.setHeader("x-records", 1);
-
-      return response.status(StatusCodes.CREATED).send();
     } catch (err: any) {
-      return response.status(StatusCodes.BAD_REQUEST).json({
-        message: err.message || "Unexpected error.",
-      });
+
+      failedToCreateANewRecord(err);
+      return response;
     };
   };
 };

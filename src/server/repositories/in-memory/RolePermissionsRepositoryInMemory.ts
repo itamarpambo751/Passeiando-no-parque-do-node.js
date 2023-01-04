@@ -34,15 +34,16 @@ export class RolePermissionsRepositoryInMemory
     return new HttpExceptionErrors("We found no valid permissions for this role.");
   };
 
-  async save({role_id, permissions}: RolePermissionModel): Promise<any | HttpExceptionErrors> {
-    
-    const result:any = permissions.forEach( async permission_id => {
+  async save({role_id, permissions}: RolePermissionModel): Promise<number | HttpExceptionErrors> {
+
+    permissions.forEach( async permission_id => {
       await prisma.rolePermissions.create({ 
         data: { 
           role_id, permission_id, 
         }, 
       })
     }); 
-    return result;
+    
+    return permissions.length;
   };
 };

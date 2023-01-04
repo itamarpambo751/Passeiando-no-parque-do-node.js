@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
 import { RoleModel } from "../../entities/Role";
+import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
 interface IbodyRequest extends Omit<RoleModel, "id">{};
 
@@ -26,34 +27,25 @@ export class CreateRoleServiceController {
     const { name } = request.body;
 
     try {
-      const result = await this.createRoleService.execute({ name });
+      const requestResult = await this.createRoleService.execute({ name });
 
-      if (result instanceof HttpExceptionErrors) {
-        
-        return response
-          .setHeader("failed-to-create-record", "x-error, x-message")
-          .setHeader("x-error", result.statusCode)
-          .setHeader("x-message", result.message)
-          .status(result.statusCode)
-          .json({ message: result.message });
+      if (requestResult instanceof HttpExceptionErrors) {
+
+        failedToCreateANewRecord(requestResult);
+        return response;
       };
 
       return response
-        .setHeader("X-records-created", "x-records")
-        .setHeader("x-records", 1)
+        .setHeader("New-Record-Successfully-Created", "X-Records, X-StatusCode")
+        .setHeader("X-Records", 1)
+        .setHeader("X-StatusCode", StatusCodes.CREATED)
         .status(StatusCodes.CREATED)
         .send();
 
     } catch (err: any) {
 
-      return response
-        .setHeader("failed-to-create-record", "x-error, x-message")
-        .setHeader("x-error", StatusCodes.BAD_REQUEST)
-        .setHeader("x-message", err.message)
-        .status(StatusCodes.BAD_REQUEST)
-        .json({
-          message: err.message || "Unexpected error.",
-        });
+      failedToCreateANewRecord(err);
+      return response;
     };
   };
 };

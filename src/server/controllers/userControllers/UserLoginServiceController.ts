@@ -5,6 +5,7 @@ import { UserRepositoryInMemory } from "../../repositories/in-memory/UserReposit
 import { UserLoginService } from "../../services/userServices/UserLoginService";
 import * as yup from "yup";
 import { UserModel } from "../../entities/User";
+import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
 interface IbodyRequest extends Omit<UserModel, "id" | "name">{};
 
@@ -37,9 +38,8 @@ class UserLoginServiceController {
 
     } catch (err: any) {
 
-      return response
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: err.message || "Internal server error." });
+      failedToCreateANewRecord(err);
+      return response;
     };
   };
 };

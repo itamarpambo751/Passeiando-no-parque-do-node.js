@@ -3,12 +3,12 @@ import { StatusCodes } from "http-status-codes";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { CreateRoleService } from "../../services/rolesServices/CreateRoleService";
 import * as yup from "yup";
-import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
+import { validateDataSentFromRequest } from "../../middlewares/ensureTheRequestDataInTheRequest";
 import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
 import { RoleModel } from "../../entities/Role";
 import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
-interface IbodyRequest extends Omit<RoleModel, "id">{};
+interface IbodyRequest extends Omit<RoleModel, "id"> {}
 
 export const validateCreateRoleServiceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({
@@ -30,10 +30,9 @@ export class CreateRoleServiceController {
       const requestResult = await this.createRoleService.execute({ name });
 
       if (requestResult instanceof HttpExceptionErrors) {
-
         failedToCreateANewRecord(requestResult);
         return response;
-      };
+      }
 
       return response
         .setHeader("New-Record-Successfully-Created", "X-Records, X-StatusCode")
@@ -41,14 +40,12 @@ export class CreateRoleServiceController {
         .setHeader("X-StatusCode", StatusCodes.CREATED)
         .status(StatusCodes.CREATED)
         .send();
-
     } catch (err: any) {
-
       failedToCreateANewRecord(err);
       return response;
-    };
-  };
-};
+    }
+  }
+}
 
 export const createRoleServicecontroller = new CreateRoleServiceController(
   new CreateRoleService(new RoleRepositoryInMemory())

@@ -3,11 +3,11 @@ import { CreateUserservice } from "../../services/userServices/CreateUserService
 import { StatusCodes } from "http-status-codes";
 import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import * as yup from "yup";
-import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
+import { validateDataSentFromRequest } from "../../middlewares/ensureTheRequestDataInTheRequest";
 import { UserModel } from "../../entities/User";
 import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
 
-interface IbodyRequest extends Omit<UserModel, "id">{};
+interface IbodyRequest extends Omit<UserModel, "id"> {}
 
 export const validateCreateUserserviceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({
@@ -35,7 +35,6 @@ class CreateUserServiceController {
 
       return response.status(StatusCodes.CREATED).send(savedUser);
     } catch (err: any) {
-      
       failedToCreateANewRecord(err);
       return response;
     }

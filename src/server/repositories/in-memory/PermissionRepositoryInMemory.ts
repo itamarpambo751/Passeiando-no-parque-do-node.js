@@ -12,6 +12,7 @@ export class PermissionRepositoryInMemory
     const validIds: string[] = [];
 
     ids.forEach(async id => {
+
       const permission = await prisma.permission.findUnique({ where: {id} });
 
       permission ? validIds.push(permission.id):"";

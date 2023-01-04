@@ -32,17 +32,20 @@ export class CreatePermissionServiceController {
           .status(result.statusCode)
           .json({ message: result.message });
 
+      response.setHeader("X-records-created", "x-records");
+      response.setHeader("x-records", 1);
+
       return response.status(StatusCodes.CREATED).send();
     } catch (err: any) {
       return response.status(StatusCodes.BAD_REQUEST).json({
         message: err.message || "Unexpected error.",
       });
-    }
-  }
-}
+    };
+  };
+};
 
 export const createPermissionServicecontroller = new CreatePermissionServiceController(
   new CreatePermissionService(
     new PermissionRepositoryInMemory()
-    )
+  )
 );

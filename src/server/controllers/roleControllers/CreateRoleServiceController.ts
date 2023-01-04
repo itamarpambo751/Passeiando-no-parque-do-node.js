@@ -5,10 +5,9 @@ import { CreateRoleService } from "../../services/rolesServices/CreateRoleServic
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
+import { RoleModel } from "../../entities/Role";
 
-interface IbodyRequest {
-  name: string;
-};
+interface IbodyRequest extends Omit<RoleModel, "id">{};
 
 export const validateCreateRoleServiceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({

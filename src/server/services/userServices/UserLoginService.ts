@@ -6,5 +6,5 @@ export class UserLoginService {
 
   async execute(data: userLoginInterface) {
     return await this.userRepository.login(data.email, data.password);
-  }
-}
+  };
+};

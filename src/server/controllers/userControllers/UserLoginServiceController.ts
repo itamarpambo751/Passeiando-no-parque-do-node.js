@@ -4,11 +4,9 @@ import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSe
 import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import { UserLoginService } from "../../services/userServices/UserLoginService";
 import * as yup from "yup";
+import { UserModel } from "../../entities/User";
 
-interface IbodyRequest {
-  email: string;
-  password: string;
-};
+interface IbodyRequest extends Omit<UserModel, "id" | "name">{};
 
 export const validateUserLoginServiceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({

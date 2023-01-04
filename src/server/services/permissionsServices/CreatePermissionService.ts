@@ -4,7 +4,7 @@ import { PermissionModel } from "../../entities/Permission";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { PermissionRepositoryInterface } from "../../repositories/PermissionRepository";
 
-export class CreatePermitionService {
+export class CreatePermissionService {
   constructor(private permissionRepository: PermissionRepositoryInterface) {}
 
   async execute({ name }: permissionCreationInterface) {

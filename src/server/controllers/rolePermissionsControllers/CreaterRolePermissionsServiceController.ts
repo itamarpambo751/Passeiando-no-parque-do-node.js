@@ -5,19 +5,19 @@ import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSe
 import { CreateRolePermitionsService } from "../../services/rolePermissionsServices/CreateRolePermissionsService";
 import * as yup from "yup";
 import { RolePermissionsRepositoryInMemory } from "../../repositories/in-memory/RolePermissionsRepositoryInMemory";
+import { PermissionRepositoryInMemory } from "../../repositories/in-memory/PermissionRepositoryInMemory";
+import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
+import { RolePermissionModel } from "../../entities/RolePermissions";
 
 
-interface IbodyRequest {
-    role_id: string;
-    permissions: string[];
-};
+interface IbodyRequest extends RolePermissionModel{};
   
 export const validateCreateRolePermitionsServiceSentSchema = validateDataSentFromRequest(
     (getSchema) => ({
       body: getSchema<IbodyRequest>(
         yup.object().shape({
-          role_id: yup.string().required().min(30),
-          permissions: yup.array()
+          role_id: yup.string().uuid().required().min(30),
+          permissions: yup.array().of(yup.string().uuid().required())
         })
       ),
     })
@@ -27,11 +27,10 @@ export class CreateRolePermitionsServiceController {
 
     
     async handle(request: Request, response: Response): Promise<Response> {
-
         const { role_id, permissions } = request.body;
 
         try {
-            
+
             const requestResult = await this.createRolePermitionsService.execute({ role_id, permissions });
 
             if (requestResult instanceof HttpExceptionErrors)
@@ -57,5 +56,9 @@ export class CreateRolePermitionsServiceController {
 };
 
 export const createRolePermitionsServiceController = new CreateRolePermitionsServiceController(
-    new CreateRolePermitionsService(new RolePermissionsRepositoryInMemory())
+    new CreateRolePermitionsService(
+        new RolePermissionsRepositoryInMemory(),
+        new PermissionRepositoryInMemory(),
+        new RoleRepositoryInMemory(),
+    )
 );

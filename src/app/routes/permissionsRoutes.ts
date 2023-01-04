@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { createPermitionServicecontroller, validateCreatePermitionServiceSentSchema } from "../../server/controllers/permissionsControllers/CreatePermissionsServiceController";
+import { createPermissionServicecontroller, validateCreatePermissionServiceSentSchema } from "../../server/controllers/permissionsControllers/CreatePermissionsServiceController";
 
-const permitionsRoutes = Router();
+const permissionsRoutes = Router();
 
-permitionsRoutes.post("/permissions", validateCreatePermitionServiceSentSchema, (req, res) => {
-    return createPermitionServicecontroller.handle(req, res);
+permissionsRoutes.post("/permissions", validateCreatePermissionServiceSentSchema, (req, res) => {
+    return createPermissionServicecontroller.handle(req, res);
 });
 
-export { permitionsRoutes };
+export { permissionsRoutes };

@@ -1,3 +1,3 @@
-export interface permissionCreationInterface {
-    name: string;
-};
+import { PermissionModel } from "../entities/Permission";
+
+export interface permissionCreationInterface extends Omit<PermissionModel, "id">{};

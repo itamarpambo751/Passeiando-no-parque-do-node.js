@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
-import { CreatePermitionService } from "../../services/permissionsServices/CreatePermissionService";
+import { CreatePermissionService } from "../../services/permissionsServices/CreatePermissionService";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
 import { PermissionRepositoryInMemory } from "../../repositories/in-memory/PermissionRepositoryInMemory";
+import { PermissionModel } from "../../entities/Permission";
 
-interface IbodyRequest {
-  name: string;
-}
+interface IbodyRequest extends Omit<PermissionModel, "id">{};
 
-export const validateCreatePermitionServiceSentSchema =
+export const validateCreatePermissionServiceSentSchema =
   validateDataSentFromRequest((getSchema) => ({
     body: getSchema<IbodyRequest>(
       yup.object().shape({
@@ -19,8 +18,8 @@ export const validateCreatePermitionServiceSentSchema =
     ),
   }));
 
-export class CreateRoleServiceController {
-  constructor(private createPermitionService: CreatePermitionService) {}
+export class CreatePermissionServiceController {
+  constructor(private createPermitionService: CreatePermissionService) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
@@ -42,8 +41,8 @@ export class CreateRoleServiceController {
   }
 }
 
-export const createPermitionServicecontroller = new CreateRoleServiceController(
-  new CreatePermitionService(
+export const createPermissionServicecontroller = new CreatePermissionServiceController(
+  new CreatePermissionService(
     new PermissionRepositoryInMemory()
     )
 );

@@ -4,12 +4,9 @@ import { StatusCodes } from "http-status-codes";
 import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory";
 import * as yup from "yup";
 import { validateDataSentFromRequest } from "../../middlewares/validateTheDataSentMiddleware";
+import { UserModel } from "../../entities/User";
 
-interface IbodyRequest {
-  name: string;
-  email: string;
-  password: string;
-}
+interface IbodyRequest extends Omit<UserModel, "id">{};
 
 export const validateCreateUserserviceSentSchema = validateDataSentFromRequest(
   (getSchema) => ({

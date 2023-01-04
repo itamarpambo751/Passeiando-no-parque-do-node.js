@@ -1,5 +1,6 @@
 import { RolePermissionsRepositoryInterface } from "../RolePermissionsRepository";
 import { prisma } from "../../../client/client";
+import { Prisma } from "@prisma/client";
 import { HttpExceptionErrors } from "../../errors/httpExceptionsErrors";
 import { RolePermissionModel } from "../../entities/RolePermissions";
 
@@ -10,12 +11,11 @@ export class RolePermissionsRepositoryInMemory
     role_id: string,
     permissions: string[]
   ): Promise<string[] | HttpExceptionErrors> {
+
     const returnedIds: string[] = [];
       
     const registExists = await prisma.rolePermissions.findMany({
-      where: {
-        role_id
-      },select: {
+      where: { role_id },select: {
         permission: {
           select: {
             id: true
@@ -34,13 +34,15 @@ export class RolePermissionsRepositoryInMemory
     return new HttpExceptionErrors("We found no valid permissions for this role.");
   };
 
-  async save({role_id, permissions}: RolePermissionModel): Promise<void> {
+  async save({role_id, permissions}: RolePermissionModel): Promise<any | HttpExceptionErrors> {
     
-    permissions.forEach( async permission_id => await prisma.rolePermissions.create({ 
-      data: { 
-        role_id, permission_id, 
-      }, 
-    }));
+    const result:any = permissions.forEach( async permission_id => {
+      await prisma.rolePermissions.create({ 
+        data: { 
+          role_id, permission_id, 
+        }, 
+      })
+    }); 
+    return result;
   };
-
 };

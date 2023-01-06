@@ -24,7 +24,7 @@ export class UserRepositoryInMemory implements UserRepositoryInterface {
         email,
       },
     });
-  }
+  };
 
   async save({ name, email, password }: UserModel): Promise<Partial<User>> {
     const id = uuid();
@@ -55,5 +55,5 @@ export class UserRepositoryInMemory implements UserRepositoryInterface {
       user,
       accessToken: await generateToken(foundedUser),
     };
-  }
-}
+  };
+};

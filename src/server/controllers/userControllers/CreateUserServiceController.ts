@@ -37,9 +37,9 @@ class CreateUserServiceController {
     } catch (err: any) {
       failedToCreateANewRecord(err);
       return response;
-    }
-  }
-}
+    };
+  };
+};
 
 export const createUserServiceController = new CreateUserServiceController(
   new CreateUserservice(new UserRepositoryInMemory())

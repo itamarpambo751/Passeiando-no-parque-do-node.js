@@ -8,7 +8,6 @@ import { PermissionRepositoryInMemory } from "../../repositories/in-memory/Permi
 import { RoleRepositoryInMemory } from "../../repositories/in-memory/RoleRepositoryInMemory";
 import { RolePermissionModel } from "../../entities/RolePermissions";
 import { failedToCreateANewRecord } from "../../errors/FailedToCreateANewRecordErrors";
-import { ensureUuidVx } from "../../middlewares/ensureVersionXForTheUuid";
 import "dotenv";
 
 interface IbodyRequest extends RolePermissionModel {}
@@ -31,8 +30,6 @@ export class CreateRolePermitionsServiceController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { role_id, permissions } = request.body;
 
-    //ensureUuidVx(Number(process.env.UUID_VERSION) ?? 4, role_id, permissions);
-
     try {
       const requestResult = await this.createRolePermitionsService.execute({
         role_id,
@@ -42,7 +39,7 @@ export class CreateRolePermitionsServiceController {
       if (requestResult instanceof HttpExceptionErrors) {
         failedToCreateANewRecord(requestResult);
         return response;
-      }
+      };
 
       return response
         .setHeader("X-Records-Inserteds", requestResult)
@@ -52,9 +49,9 @@ export class CreateRolePermitionsServiceController {
     } catch (err: any) {
       failedToCreateANewRecord(err);
       return response;
-    }
-  }
-}
+    };
+  };
+};
 
 export const createRolePermitionsServiceController =
   new CreateRolePermitionsServiceController(

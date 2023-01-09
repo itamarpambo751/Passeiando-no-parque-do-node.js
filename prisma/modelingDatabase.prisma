@@ -1,0 +1,266 @@
+//          School
+
+model School {
+    id String @id @default(uuid())
+    name String @unique
+    logo String @unique @default("https://google.com/makarencologotipo.png")
+    added DateTime @default(now())
+
+    schoolTrainingAreas TrainingArea[]
+
+    admin_id String @unique
+    admin SchoolAdmin @relation(fields: [admin_id], references: [id])
+
+    @@map("school")
+}
+
+model TrainingArea {
+    id String @id @default(uuid())
+    name String @unique
+    image String @unique @default("https://google.com/trainingarea.png")
+
+    school School[]
+
+    courses Course[]
+
+    @@map("trainingArea")
+}
+
+model Course {
+    id String @id @default(uuid())
+    name String @unique
+    image String @unique @default("https://google.com/course.png")
+
+    trainingArea_id String
+    trainingArea TrainingArea @relation(fields: [trainingArea_id], references: [id])
+
+    classes Class[]
+
+    @@map("course")
+}
+
+model Level {
+    id String @id @default(uuid())
+    name String @unique
+
+    classes Class[]
+
+    @@map("level")
+}
+
+model Class {
+    id String @id @default(uuid())
+    name String @unique
+
+    level_id String
+    level Level @relation(fields: [level_id], references: [id])
+
+    course_id String
+    course Course @relation(fields: [course_id], references: [id])
+
+    teachers Teacher[] @relation("teachers")
+
+    class_director_id String @unique
+    class_director Teacher @relation("class_director",fields: [class_director_id], references: [id])
+
+    @@map("class")
+}
+
+model Shifts {
+    id String @id @default(uuid())
+    name String @unique
+    start String
+    end String
+    
+}
+
+
+model GradesOfTheSchoolYear {
+    id String @id @default(uuid())
+    student_id String
+    student Student @relation(fields: [student_id], references: [id])
+
+    quarter Int
+    testType String //continue avaliation(CA), quarter test(QT), teacher test(TT), 
+    discipline String
+
+    classification Float
+
+    doneIn DateTime @default(now())
+
+    @@map("gradesOfTheSchoolYear")
+}
+
+
+
+
+
+
+//          Peoples
+
+model SchoolAdmin {
+    id String @id @default(uuid())
+    name String @unique
+    email String @unique
+    alternativeEmail String @unique
+
+    runningTheSchool School?
+
+    contact SchoolAdminsPhones?
+
+    account SchoolAdminsAccounts?
+
+    @@map("schoolAdmin")
+}
+
+model Teacher {
+    id String @id @default(uuid())
+    name String @unique
+    genre String
+    email String @unique
+    level String @default("unavailable")
+    careerStartDate DateTime @default(now())
+
+    contact TeachersPhone?
+
+    account TeachersAccounts?
+
+    classes Class[] @relation("teachers")
+
+    myClass Class? @relation("class_director")
+
+    @@map("teacher")
+}
+
+
+model Student {
+    id String @id @default(uuid())
+    processNumber Int @unique
+    callNumber Int
+    name String @unique
+    genre String
+    birthDate DateTime
+    office String @default("normal office")
+
+    contact StudentsPhone?
+
+    account StudentsAccounts?
+
+    gradesOfTheSchoolYear GradesOfTheSchoolYear[]
+
+    inCharge InCharge?
+
+    @@map("student")
+}
+
+model InCharge {
+    id String @id @default(uuid())
+    name String @unique
+
+    student_id String @unique
+    student Student @relation(fields: [student_id], references: [id])
+
+    contact InChargesPhone?
+
+    account InChargesAccounts?
+
+    @@map("inCharge")
+}
+
+
+
+
+
+
+
+
+//                  Contacts
+
+model SchoolAdminsPhones {
+    id String @id @default(uuid())
+    type String
+    number Int @unique
+
+    admin_id String @unique
+    admin SchoolAdmin @relation(fields: [admin_id], references: [id])
+
+    @@map("schoolAdminsPhone")
+}
+
+model TeachersPhone {
+    id String @id @default(uuid())
+    type String
+    number Int @unique 
+
+    teacher_id String @unique
+    teacher Teacher @relation(fields: [teacher_id], references: [id])
+
+    @@map("teachersPhone")
+}
+
+model StudentsPhone {
+    id String @id @default(uuid())
+    type String
+    number Int @unique 
+
+    student_id String @unique
+    student Student @relation(fields: [student_id], references: [id])
+
+    @@map("studentsPhone")
+}
+
+model InChargesPhone {
+    id String @id @default(uuid())
+    type String
+    number Int @unique 
+
+    inCharge_id String @unique
+    inCharge InCharge @relation(fields: [inCharge_id], references: [id])
+
+    @@map("inChargesPhone")
+}
+
+
+
+
+
+
+
+
+//          Accounts
+
+model SchoolAdminsAccounts {
+    email String @unique
+    password String
+
+    admin_id String @unique
+    admin SchoolAdmin @relation(fields: [admin_id], references: [id])
+
+    profile_image String @default("https://google.com/user.png")
+}
+
+model TeachersAccounts {
+    email String @unique
+    password String
+
+    teacher_id String @unique
+    teacher Teacher @relation(fields: [teacher_id], references: [id])
+}
+
+model StudentsAccounts {
+    email String @unique
+    password String
+
+    student_id String @unique
+    student Student @relation(fields: [student_id], references: [id])
+}
+
+model InChargesAccounts {
+    email String @unique
+    password String
+
+    inCharge_id String @unique
+    inCharge InCharge @relation(fields: [inCharge_id], references: [id])
+}
+
+
